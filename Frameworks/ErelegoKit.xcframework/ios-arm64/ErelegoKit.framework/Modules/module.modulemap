@@ -1,0 +1,6 @@
+framework module ErelegoKit {
+  umbrella header "ErelegoKit.h"
+  export *
+
+  module * { export * }
+}

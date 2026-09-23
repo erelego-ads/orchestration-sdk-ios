@@ -1,0 +1,570 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.4 effective-5.10 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+// swift-module-flags: -target x86_64-apple-ios15.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ErelegoKit
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.4
+import AVFoundation
+import AppTrackingTransparency
+import Compression
+@_exported import ErelegoKit
+import Foundation
+import GoogleMobileAds
+import Network
+import SQLite3
+import SafariServices
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import zlib
+public struct DSPBranding : Swift.Codable {
+  public let partner: Swift.String
+  public let text: Swift.String
+  public let imageUrl: Swift.String
+  public let position: Swift.String
+  public let landing: Swift.String
+  public init(partner: Swift.String = "", text: Swift.String = "", imageUrl: Swift.String = "", position: Swift.String = "", landing: Swift.String = "")
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum ErelegoAdType : Swift.String, Swift.Codable {
+  case native
+  case banner
+  case carouselBanner
+  case carouselNative
+  case interstitial
+  case rewarded
+  case rewarded_inter
+  case appOpen
+  case unifiedAoi
+  case unified
+  case nativeCustom
+  case nativeReward
+  case video
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SDK : Swift.String, Swift.Codable {
+  case admob
+  case gam
+  case erelego
+  case erelegoDirect
+  case liftoff
+  case jio
+  case inmobi
+  case unity
+  case headerBiddingAdapter
+  public init(from decoder: any Swift.Decoder) throws
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class MediationNativeAdView : UIKit.UIView {
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var headlineView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var mediaView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency public var ctaView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var bodyView: UIKit.UIView!
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func didMoveToWindow()
+  @_Concurrency.MainActor @preconcurrency public func setNativeAd(nativeAd: any ErelegoKit.MediationNativeAd)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency public class MediationNativeRewardAdView : UIKit.UIView {
+  @_Concurrency.MainActor @preconcurrency weak public var headlineView: UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency weak public var mediaView: UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency weak public var ctaView: UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency weak public var bodyView: UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency weak public var logoView: UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency weak public var advertiserView: UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency weak public var ratingBarView: UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func didMoveToWindow()
+  @_Concurrency.MainActor @preconcurrency public func setNativeRewardAd(nativeRewardAd: any ErelegoKit.MediationNativeRewardAd)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  #endif
+  @objc deinit
+}
+public struct AdapterStatus {
+}
+public struct AdError : Swift.Error {
+  public let description: Swift.String?
+}
+public protocol MediaionAdEventDelegate : AnyObject {
+  func recordClick()
+  func recordImpression()
+}
+public protocol MediationBannerAdEventDelegate : AnyObject {
+  func recordBannerClick()
+  func recordBannerImpression()
+}
+public protocol MediationNativeAdEventDelegate : AnyObject {
+  func recordNativeClick()
+  func recordNativeImpression()
+}
+public protocol MediationNativeRewardAdEventDelegate : AnyObject {
+  func recordNativeRewardClick()
+  func recordNativeRewardImpression()
+}
+public protocol MediationNativeCustomAdEventDelegate : AnyObject {
+  func recordNativeCustomClick()
+  func recordNativeCustomImpression()
+  func recordNativeCustomClick(ad: any ErelegoKit.MediationNativeCustomFormatAd, assetName: Swift.String)
+}
+extension ErelegoKit.MediationNativeCustomAdEventDelegate {
+  public func recordNativeCustomClick(ad: any ErelegoKit.MediationNativeCustomFormatAd, assetName: Swift.String)
+}
+public protocol MediationInterstitialAdEventDelegate : AnyObject {
+  func recordInterstitialClick()
+  func recordInterstitialImpression()
+  func ad(didFailToPresentFullScreenContentWithError error: ErelegoKit.AdError)
+  func adWillPresentFullScreenContent()
+  func adDidDismissFullScreenContent()
+}
+public protocol MediationRewardedAdEventDelegate : AnyObject {
+  func recordRewardedClick()
+  func recordRewardedImpression()
+  func didRewardUser(reward: ErelegoKit.AdReward)
+  func didStartVideo()
+  func didEndVideo()
+  func ad(didFailToPresentFullScreenContentWithError error: ErelegoKit.AdError)
+  func adWillPresentFullScreenContent()
+  func adDidDismissFullScreenContent()
+}
+public protocol MediationAppOpenAdEventDelegate : AnyObject {
+  func recordAppOpenClick()
+  func recordAppOpenImpression()
+  func ad(didFailToPresentFullScreenContentWithError error: ErelegoKit.AdError)
+  func adWillPresentFullScreenContent()
+  func adDidDismissFullScreenContent()
+}
+public protocol MediationRewardedInterstitialAdEventDelegate : AnyObject {
+  func recordRewardedInterstitialClick()
+  func recordRewardedInterstitialImpression()
+  func didRewardUser(reward: ErelegoKit.AdReward)
+  func didStartVideo()
+  func didEndVideo()
+  func ad(didFailToPresentFullScreenContentWithError error: ErelegoKit.AdError)
+  func adWillPresentFullScreenContent()
+  func adDidDismissFullScreenContent()
+}
+public enum PrecisionType : Swift.Equatable {
+  case unknown
+  case estimated
+  case publisherProvided
+  case precise
+  public static func == (a: ErelegoKit.PrecisionType, b: ErelegoKit.PrecisionType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct MediationAdEventCallbacks {
+  public var onClick: (() -> Swift.Void)?
+  public var onImpression: (() -> Swift.Void)?
+  public var onRevenuePaid: ((_ revenue: Swift.Double, _ adUnitId: Swift.String, _ network: Swift.String, _ currency: Swift.String, _ precisionType: ErelegoKit.PrecisionType) -> Swift.Void)?
+  public var onCustomNativeClick: ((_ assetName: Swift.String) -> Swift.Void)?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(onClick: (() -> Swift.Void)? = nil, onImpression: (() -> Swift.Void)? = nil, onRevenuePaid: ((_ revenue: Swift.Double, _ adUnitId: Swift.String, _ network: Swift.String, _ currency: Swift.String, _ precisionType: ErelegoKit.PrecisionType) -> Swift.Void)? = nil, onCustomNativeClick: ((_ assetName: Swift.String) -> Swift.Void)? = nil)
+  #endif
+}
+public struct AdReward {
+  public let amount: Foundation.NSDecimalNumber
+  public let type: Swift.String?
+  public let description: Swift.String?
+}
+public typealias ErelegoInitializationCompletionHandler = ([ErelegoKit.AdapterStatus]?) -> Swift.Void
+@_hasMissingDesignatedInitializers final public class Erelego {
+  public static func sharedInstance() -> ErelegoKit.Erelego
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func start(completionHandler: ErelegoKit.ErelegoInitializationCompletionHandler? = nil)
+  #endif
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class ErelegoAdLoader : ObjectiveC.NSObject {
+  weak public var delegate: (any ErelegoKit.MediationAdDelegate)?
+  public func loadAd(adRequestConfiguration: ErelegoKit.AdRequestConfiguration)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct AdRequestConfiguration {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(placement: Swift.String, viewController: UIKit.UIViewController? = nil, publisherProvidedId: Swift.String? = nil, customTargetingValues: [Swift.String : [Swift.String]] = [:], adaptiveAdWidth: Swift.Int? = nil, adaptiveAdHeight: Swift.Int? = nil, adaptiveType: Swift.String? = nil, yieldGroupBidPriceRange: Swift.String? = nil, collapsiblePlacement: Swift.String? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(placement: Swift.String, viewController: UIKit.UIViewController? = nil, publisherProvidedId: Swift.String? = nil, customTargetingValues: [Swift.String : Swift.String], adaptiveAdWidth: Swift.Int? = nil, adaptiveAdHeight: Swift.Int? = nil, adaptiveType: Swift.String? = nil, yieldGroupBidPriceRange: Swift.String? = nil, collapsiblePlacement: Swift.String? = nil)
+  #endif
+}
+public enum CollapsiblePlacement {
+  public static let top: Swift.String
+  public static let bottom: Swift.String
+}
+public protocol MediationAdDelegate : AnyObject {
+  func onBannerAdLoaded(bannerAd: any ErelegoKit.MediationBannerAd)
+  func onCarouselBannerAdLoaded(carouselBannerAd: any ErelegoKit.MediationCarouselBannerAd)
+  func onInterstitialAdLoaded(interstitialAd: any ErelegoKit.MediationInterstitialAd)
+  func onRewardedAdLoaded(rewardedAd: any ErelegoKit.MediationRewardedAd)
+  func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: any ErelegoKit.MediationRewardedInterstitialAd)
+  func onNativeAdLoaded(nativeAd: any ErelegoKit.MediationNativeAd)
+  func onNativeRewardAdLoaded(nativeRewardAd: any ErelegoKit.MediationNativeRewardAd)
+  func onCarouselNativeAdLoaded(carouselNativeAd: any ErelegoKit.MediationCarouselNativeAd)
+  func onCustomNativeAdLoaded(customNativeAd: any ErelegoKit.MediationNativeCustomFormatAd)
+  func onAppOpenAdLoaded(appOpenAd: any ErelegoKit.MediationAppOpenAd)
+  func onAdRevenuePaid(revenue: Swift.Double, adUnitId: Swift.String, network: Swift.String, currency: Swift.String, precisionType: ErelegoKit.PrecisionType)
+  func onAdFailedToLoad(error: ErelegoKit.AdError)
+}
+public struct NativeReward : Swift.Codable {
+  public let id: Swift.String?
+  public let type: Swift.String?
+  public let entity: Swift.String?
+  public let coupon: ErelegoKit.NativeRewardCoupon?
+  public let brand: ErelegoKit.NativeRewardBrand?
+  public let description: Swift.String?
+  public let tnc: Swift.String?
+  public let redemptionInstructions: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(id: Swift.String? = nil, type: Swift.String? = nil, entity: Swift.String? = nil, coupon: ErelegoKit.NativeRewardCoupon? = nil, brand: ErelegoKit.NativeRewardBrand? = nil, description: Swift.String? = nil, tnc: Swift.String? = nil, redemptionInstructions: Swift.String? = nil)
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct NativeRewardCoupon : Swift.Codable {
+  public let code: Swift.String?
+  public let expiresAt: Swift.Int64?
+  public let redemptionUrl: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(code: Swift.String? = nil, expiresAt: Swift.Int64? = nil, redemptionUrl: Swift.String? = nil)
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct NativeRewardBrand : Swift.Codable {
+  public let displayName: Swift.String?
+  public let logoUrl: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(displayName: Swift.String? = nil, logoUrl: Swift.String? = nil)
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol Ad : AnyObject {
+  var adType: ErelegoKit.ErelegoAdType { get }
+  var sdk: ErelegoKit.SDK { get }
+  var ttl: Swift.Int64 { get }
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eCPM: Swift.Double? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventCallbacks: ErelegoKit.MediationAdEventCallbacks? { get set }
+  #endif
+  func destroy()
+}
+public protocol MediationBannerAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  var view: UIKit.UIView? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventDelegate: (any ErelegoKit.MediationBannerAdEventDelegate)? { get set }
+  #endif
+}
+public protocol MediationCarouselBannerAd : ErelegoKit.Ad {
+  var ads: [any ErelegoKit.MediationBannerAd] { get }
+}
+public protocol MediationCarouselNativeAd : ErelegoKit.Ad {
+  var ads: [any ErelegoKit.MediationNativeAd] { get }
+}
+public protocol MediationInterstitialAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  func presentInterstitial(from viewController: UIKit.UIViewController?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventDelegate: (any ErelegoKit.MediationInterstitialAdEventDelegate)? { get set }
+  #endif
+}
+public protocol MediationRewardedAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  func presentRewarded(from viewController: UIKit.UIViewController?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventDelegate: (any ErelegoKit.MediationRewardedAdEventDelegate)? { get set }
+  #endif
+}
+public protocol MediationRewardedInterstitialAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  func presentRewardedInterstitial(from viewController: UIKit.UIViewController?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventDelegate: (any ErelegoKit.MediationRewardedInterstitialAdEventDelegate)? { get set }
+  #endif
+}
+public protocol MediationNativeAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventDelegate: (any ErelegoKit.MediationNativeAdEventDelegate)? { get set }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var headline: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var callToAction: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var icon: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var body: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var landingUrl: Swift.String? { get }
+  #endif
+  var openUrlInApp: Swift.Bool { get }
+  #if compiler(>=5.3) && $NonescapableTypes
+  var starRating: Swift.Double? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var store: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var price: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var advertiser: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var mediaView: UIKit.UIView? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var aspectRatio: CoreFoundation.CGFloat? { get }
+  #endif
+  var overrideImpressionHandling: Swift.Bool { get set }
+  var overrideClickHandling: Swift.Bool { get set }
+  #if compiler(>=5.3) && $NonescapableTypes
+  func registerAdView(_ adView: UIKit.UIView, clickableAssetViews: [Swift.String : UIKit.UIView?])
+  #endif
+  func recordNativeClick()
+  func recordNativeImpression()
+}
+public protocol MediationNativeRewardAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventDelegate: (any ErelegoKit.MediationNativeRewardAdEventDelegate)? { get set }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var headline: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var callToAction: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var icon: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var logo: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var body: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var landingUrl: Swift.String? { get }
+  #endif
+  var openUrlInApp: Swift.Bool { get }
+  #if compiler(>=5.3) && $NonescapableTypes
+  var starRating: Swift.Double? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var advertiser: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var mediaView: UIKit.UIView? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var imageURL: Swift.String? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var dspBranding: ErelegoKit.DSPBranding? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var aspectRatio: CoreFoundation.CGFloat? { get }
+  #endif
+  var overrideImpressionHandling: Swift.Bool { get set }
+  var overrideClickHandling: Swift.Bool { get set }
+  var hasReward: Swift.Bool { get }
+  #if compiler(>=5.3) && $NonescapableTypes
+  var reward: ErelegoKit.NativeReward? { get }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  func registerAdView(_ adView: UIKit.UIView, clickableAssetViews: [Swift.String : UIKit.UIView?])
+  #endif
+  func recordNativeRewardClick()
+  func recordNativeRewardImpression()
+}
+public protocol MediationUnifiedAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  var nativeAd: (any ErelegoKit.MediationNativeAd)? { get set }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var bannerAd: (any ErelegoKit.MediationBannerAd)? { get set }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var customNativeAd: (any ErelegoKit.MediationNativeCustomFormatAd)? { get set }
+  #endif
+}
+public protocol MediationNativeCustomFormatAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventDelegate: (any ErelegoKit.MediationNativeCustomAdEventDelegate)? { get set }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  func getText(for assetName: Swift.String) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  func getCustomFormatId() -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  func getAvailableAssetNames() -> [Swift.String]?
+  #endif
+  func performClick(on assetName: Swift.String)
+  func recordNativeImpression()
+  func trackViewability(_ view: UIKit.UIView)
+  func destroy()
+}
+extension ErelegoKit.MediationNativeCustomFormatAd {
+  public func trackViewability(_ view: UIKit.UIView)
+}
+public protocol MediationAppOpenAd : ErelegoKit.Ad {
+  #if compiler(>=5.3) && $NonescapableTypes
+  func presentAppOpenAd(from viewController: UIKit.UIViewController?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  var eventDelegate: (any ErelegoKit.MediationAppOpenAdEventDelegate)? { get set }
+  #endif
+}
+public protocol MediationNativeCustomFormatAdGAM {
+  #if compiler(>=5.3) && $NonescapableTypes
+  func getMediaContent() -> GoogleMobileAds.MediaContent?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  func getImage(for assetName: Swift.String) -> GoogleMobileAds.NativeAdImage?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  func getDisplayOpenMeasurement() -> GoogleMobileAds.DisplayAdMeasurement?
+  #endif
+}
+#if compiler(>=5.3) && $NonescapableTypes
+public func anyToInt(_ value: Any?) -> Swift.Int?
+#endif
+public enum AdEnvironment {
+  case Development
+  case Production
+  public static func == (a: ErelegoKit.AdEnvironment, b: ErelegoKit.AdEnvironment) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum AdSDK : Swift.String {
+  case AdMob
+  case GAM
+  case ErelegoNative
+  case Unknown
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum AdType : Swift.String {
+  case Banner
+  case Interstitial
+  case Native
+  case NativeFullScreen
+  case Rewarded
+  case RewardedInterstitial
+  case AppOpen
+  case Unknown
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum AdEventType : Swift.String {
+  case INIT_REQUEST
+  case INIT_RESPONSE
+  case AD_REQUEST
+  case AD_REQUEST_BACKFILL
+  case AD_OPPORTUNITY
+  case AD_REQUEST_ADAPTER
+  case AD_RESPONSE
+  case AD_RESPONSE_ERROR
+  case AD_CLICKED
+  case AD_IMPRESSION
+  case AD_VIEWABLE_IMPRESSION
+  case AD_VIEWABLE_IMPRESSION_FAILURE
+  case AD_CACHED
+  case AD_CACHE_HIT
+  case AD_CACHE_MISS
+  case EXCEPTION
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum MyError : Swift.Error {
+  case noInternetConnection
+  case decodingError
+  case somethingWentWrong
+  case customErr(Swift.String)
+}
+extension ErelegoKit.MyError : Foundation.LocalizedError {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+}
+extension Swift.String {
+  public var trimmed: Swift.String {
+    get
+  }
+}
+public func printLog<T>(_ message: T, _ file: Swift.String = #file, _ lineNumber: Swift.Int = #line, _ function: Swift.String = #function)
+public func getCurrentTimeInMillis() -> Swift.Int64
+public func runOnMainThread(block: @escaping () -> ())
+public func runInBackground(block: @escaping () -> ())
+public func runOnMainThreadWithoutDeadlock(block: @escaping () -> ())
+public func runAfterTime(time: Swift.Double, block: @escaping () -> ())
+#if compiler(>=5.3) && $NonescapableTypes
+public func fetchIDFA() -> Swift.String?
+#endif
+extension ErelegoKit.ErelegoAdType : Swift.Equatable {}
+extension ErelegoKit.ErelegoAdType : Swift.Hashable {}
+extension ErelegoKit.ErelegoAdType : Swift.RawRepresentable {}
+extension ErelegoKit.SDK : Swift.Equatable {}
+extension ErelegoKit.SDK : Swift.Hashable {}
+extension ErelegoKit.SDK : Swift.RawRepresentable {}
+extension ErelegoKit.PrecisionType : Swift.Hashable {}
+extension ErelegoKit.AdEnvironment : Swift.Equatable {}
+extension ErelegoKit.AdEnvironment : Swift.Hashable {}
+extension ErelegoKit.AdSDK : Swift.Equatable {}
+extension ErelegoKit.AdSDK : Swift.Hashable {}
+extension ErelegoKit.AdSDK : Swift.RawRepresentable {}
+extension ErelegoKit.AdType : Swift.Equatable {}
+extension ErelegoKit.AdType : Swift.Hashable {}
+extension ErelegoKit.AdType : Swift.RawRepresentable {}
+extension ErelegoKit.AdEventType : Swift.Equatable {}
+extension ErelegoKit.AdEventType : Swift.Hashable {}
+extension ErelegoKit.AdEventType : Swift.RawRepresentable {}
